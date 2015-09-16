@@ -9,7 +9,7 @@ describe AlsoEnergy::Client do
         @client = AlsoEnergy::Client.new do |c|
           c.username = "thedoge"
         end
-        @client.username.must_equal "thedoge"
+        assert_equal "thedoge", @client.username
       end
     end
 
@@ -18,7 +18,7 @@ describe AlsoEnergy::Client do
         @client = AlsoEnergy::Client.new do |c|
           c.password = "12345"
         end
-        @client.password.must_equal "12345"
+        assert_equal "12345", @client.password
       end
     end
 
@@ -27,18 +27,10 @@ describe AlsoEnergy::Client do
         @client = AlsoEnergy::Client.new do |c|
           c.session_id = "totallynotnil"
         end
-        @client.session_id.must_equal "totallynotnil"
+        assert_equal "totallynotnil", @client.session_id
       end
     end
 
-    describe "#last_login" do
-      it "accepts a sessionID timestamp" do
-        @client = AlsoEnergy::Client.new do |c|
-          c.last_login = Time.new(2015, 1, 1).to_i
-        end
-        @client.last_login.must_equal 1420099200
-      end
-    end
   end
 
   describe "the authentication process" do
@@ -47,14 +39,15 @@ describe AlsoEnergy::Client do
       before do
         VCR.insert_cassette "also_energy_invalid_login"
       end
-      it "should return false for LoginFailed" do
+      it "raises an exception for login failure" do
         @client = AlsoEnergy::Client.new do |c|
           c.username = "thedoge"
           c.password = "12345"
           c.session_id = "totallynotnil"
-          c.last_login = nil
         end
-        @client.login.first.must_equal false
+        assert_raises(AlsoEnergy::AuthError) do
+          @client.login
+        end
       end
     end
   end
