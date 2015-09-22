@@ -33,9 +33,7 @@ describe AlsoEnergy::Client do
 
     describe "#site_objects" do
       it "initializes an array for site objects" do
-        @client = AlsoEnergy::Client.new do |c|
-          c.session_id = "totallynotnil"
-        end
+        @client = AlsoEnergy::Client.new
         assert_equal [], @client.site_objects
       end
     end
@@ -44,7 +42,7 @@ describe AlsoEnergy::Client do
 
   describe "the authentication process" do
 
-    describe  "#login" do
+    describe "#login" do
       it "raises an exception for login failure" do
         @client = AlsoEnergy::Client.new do |c|
           c.username = "SpaceDoge"
@@ -106,7 +104,7 @@ describe AlsoEnergy::Client do
     #     end
     #   end
     # end
-    
+
   end
 
   describe "the client data query process" do
