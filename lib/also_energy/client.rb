@@ -20,10 +20,8 @@ module AlsoEnergy
 
     def login
       message = { 'als:username' => username, 'als:password' => password }
-      response = connection.call(:login, message: message).body
-      fail AuthError, "Login Failed!" if find_in_hash(:session_id, response) == nil
-      self.session_id = find_in_hash(:session_id, response)
-      return true
+      response = find_in_hash(:session_id, (connection.call(:login, message: message).body))
+      response == nil ? (fail AuthError, "Login Failed!") : (self.session_id = response)
     end
 
     def get_sites

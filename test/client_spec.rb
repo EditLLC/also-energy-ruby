@@ -2,6 +2,9 @@ require './test/test_helper'
 
 describe AlsoEnergy::Client do
 
+  soap_url = "https://www.alsoenergy.com/WebAPI/WebAPI.svc"
+  wsdl_url = "http://www.alsoenergy.com/WebAPI/WebAPI.svc?wsdl"
+
   describe "initialization" do
 
     describe "#username" do
@@ -43,8 +46,8 @@ describe AlsoEnergy::Client do
   describe "the authentication process" do
 
     before do
-      query_wsdl = YAML.load_file("test/fixtures/also_energy_wsdl_query.yml")
-      stub_request(:get, "http://www.alsoenergy.com/WebAPI/WebAPI.svc?wsdl").to_return(:body => query_wsdl["body"]["string"])
+      wsdl_query_fixture = YAML.load_file("test/fixtures/also_energy_wsdl_query.yml")
+      stub_request(:get, wsdl_url).to_return(:body => wsdl_query_fixture["body"]["string"])
     end
 
     describe "#login" do
@@ -53,11 +56,10 @@ describe AlsoEnergy::Client do
         @client = AlsoEnergy::Client.new do |c|
           c.username = "SpaceDoge"
           c.password = "12345"
-          c.session_id = "totallynotnil"
         end
 
         fixture = YAML.load_file("test/fixtures/also_energy_invalid_login.yml")
-        stub_request(:post, "https://www.alsoenergy.com/WebAPI/WebAPI.svc").with(:body => fixture["request"]["body"]["string"]
+        stub_request(:post, soap_url).with(:body => fixture["request"]["body"]["string"]
           ).to_return(:body => fixture["response"]["body"]["string"])
 
         assert_raises(AlsoEnergy::AuthError) do
@@ -66,18 +68,18 @@ describe AlsoEnergy::Client do
 
       end
 
-      it "returns true for a successful authentication" do
+      it "assigns a session_id after successful authentication" do
         @client = AlsoEnergy::Client.new do |c|
           c.username = "SpaceDoge"
           c.password = "12345"
-          c.session_id = "totallynotnil"
+          c.session_id = nil
         end
 
         fixture = YAML.load_file("test/fixtures/also_energy_successful_login.yml")
-        stub_request(:post, "https://www.alsoenergy.com/WebAPI/WebAPI.svc").with(:body => fixture["request"]["body"]["string"]
+        stub_request(:post, soap_url).with(:body => fixture["request"]["body"]["string"]
           ).to_return(:body => fixture["response"]["body"]["string"])
 
-        @client.login.must_equal true
+        @client.login.wont_be_nil
 
       end
 
@@ -88,8 +90,8 @@ describe AlsoEnergy::Client do
   describe "the client data query process" do
 
     before do
-      query_wsdl = YAML.load_file("test/fixtures/also_energy_wsdl_query.yml")
-      stub_request(:get, "http://www.alsoenergy.com/WebAPI/WebAPI.svc?wsdl").to_return(:body => query_wsdl["body"]["string"])
+      wsdl_query_fixture = YAML.load_file("test/fixtures/also_energy_wsdl_query.yml")
+      stub_request(:get, wsdl_url).to_return(:body => wsdl_query_fixture["body"]["string"])
     end
 
     describe "#get_sites" do
@@ -101,7 +103,7 @@ describe AlsoEnergy::Client do
         end
 
         fixture = YAML.load_file("test/fixtures/also_energy_get_sites_query_success.yml")
-        stub_request(:post, "https://www.alsoenergy.com/WebAPI/WebAPI.svc").with(:body => fixture["request"]["body"]["string"]
+        stub_request(:post, soap_url).with(:body => fixture["request"]["body"]["string"]
           ).to_return(:body => fixture["response"]["body"]["string"])
 
         @client.get_sites.wont_be_nil
@@ -116,7 +118,7 @@ describe AlsoEnergy::Client do
         end
 
         fixture = YAML.load_file("test/fixtures/also_energy_get_sites_query_failure.yml")
-        stub_request(:post, "https://www.alsoenergy.com/WebAPI/WebAPI.svc").with(:body => fixture["request"]["body"]["string"]
+        stub_request(:post, soap_url).with(:body => fixture["request"]["body"]["string"]
           ).to_return(:body => fixture["response"]["body"]["string"])
 
         assert_raises(AlsoEnergy::QueryError) do
