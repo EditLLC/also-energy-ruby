@@ -27,7 +27,7 @@
 #       X-Powered-By:
 #       - ASP.NET
 #       Date:
-#       - Mon, 21 Sep 2015 23:45:01 GMT
+#       - Fri, 18 Sep 2015 21:49:04 GMT
 #       Content-Length:
 #       - '2871'
 #     body:
@@ -262,7 +262,7 @@
 #         name="BasicHttpBinding_WebAPI1" binding="tns:BasicHttpBinding_WebAPI1"><soap:address
 #         location="https://650607-web2.iad.intensive.int/WebAPI/WebAPI.svc"/></wsdl:port></wsdl:service></wsdl:definitions>
 #     http_version:
-#   recorded_at: Mon, 21 Sep 2015 23:45:03 GMT
+#   recorded_at: Fri, 18 Sep 2015 21:49:05 GMT
   request:
     method: post
     uri: https://www.alsoenergy.com/WebAPI/WebAPI.svc
@@ -270,14 +270,14 @@
       encoding: UTF-8
       string: <?xml version="1.0" encoding="UTF-8"?><soapenv:Envelope xmlns:xsd="http://www.w3.org/2001/XMLSchema"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:als="alsoenergy_ns"
-        xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"><soapenv:Body><als:Login><als:username>SpaceDoge</als:username><als:password>12345</als:password></als:Login></soapenv:Body></soapenv:Envelope>
+        xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"><soapenv:Body><als:GetSiteList><als:sessionID>SESSION_ID</als:sessionID></als:GetSiteList></soapenv:Body></soapenv:Envelope>
     headers:
       Soapaction:
-      - '"alsoenergy_ns/WebAPI/Login"'
+      - '"alsoenergy_ns/WebAPI/GetSiteList"'
       Content-Type:
       - text/xml;charset=UTF-8
       Content-Length:
-      - '382'
+      - '389'
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
       Accept:
@@ -298,16 +298,15 @@
       X-Powered-By:
       - ASP.NET
       Date:
-      - Mon, 21 Sep 2015 23:45:02 GMT
+      - Fri, 18 Sep 2015 21:49:05 GMT
       Content-Length:
-      - '388'
+      - '435'
     body:
       encoding: ASCII-8BIT
-      string: <s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/"><s:Body><LoginResponse
-        xmlns="alsoenergy_ns"><LoginResult xmlns:a="http://schemas.datacontract.org/2004/07/AlsoEnergyAPI.Data"
-        xmlns:i="http://www.w3.org/2001/XMLSchema-instance"><a:Code>4002</a:Code><a:Description
-        i:nil="true"/><a:StringCode>LoginFailed</a:StringCode><a:CustomerID>-1</a:CustomerID><a:SessionID
-        i:nil="true"/><a:UserID>-1</a:UserID></LoginResult></LoginResponse></s:Body></s:Envelope>
+      string: <s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/"><s:Body><GetSiteListResponse
+        xmlns="alsoenergy_ns"><GetSiteListResult xmlns:a="http://schemas.datacontract.org/2004/07/AlsoEnergyAPI.Data"
+        xmlns:i="http://www.w3.org/2001/XMLSchema-instance"><a:Code>200</a:Code><a:Description
+        i:nil="true"/><a:StringCode>OK</a:StringCode><a:Items><a:ListItem><a:ID>SITE_ID</a:ID><a:Name>SITE_NAME</a:Name><a:Type>SITE_TYPE</a:Type></a:ListItem></a:Items></GetSiteListResult></GetSiteListResponse></s:Body></s:Envelope>
 #     http_version:
-#   recorded_at: Mon, 21 Sep 2015 23:45:03 GMT
+#   recorded_at: Fri, 18 Sep 2015 21:49:06 GMT
 # recorded_with: VCR 2.9.3
