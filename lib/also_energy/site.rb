@@ -1,12 +1,20 @@
 module AlsoEnergy
   class Site
     include HashWrangler
-    include ReturnAttributes
+    include Virtus.model
 
-    attr_accessor :id, :name, :latitude, :longitude, :city, :state, :time_zone, :dst, :type
+    attribute :id, Integer
+    attribute :name, String
+    attribute :latitude, Float
+    attribute :longitude, Float
+    attribute :city, String
+    attribute :state, String
+    attribute :time_zone, String
+    attribute :dst, Boolean
+    attribute :type, String
 
-    def initialize
-      yield(self) if block_given?
+    def initialize(params = {})
+      super(params)
     end
 
   end

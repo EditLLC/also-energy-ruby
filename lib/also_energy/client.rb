@@ -1,6 +1,6 @@
 require 'savon'
 require 'pry'
-require './lib/also_energy/attrs'
+require 'virtus'
 require './lib/also_energy/hash_wrangler'
 require './lib/also_energy/site'
 
@@ -9,13 +9,15 @@ module AlsoEnergy
   class QueryError < StandardError; end;
 
   class Client
+    include Virtus.model
     include HashWrangler
 
-    attr_accessor :username, :password, :session_id, :site_objects
+    attribute :username, String
+    attribute :password, String
+    attribute :session_id, String
 
-    def initialize(site_objects = [])
-      @site_objects = site_objects
-      yield(self) if block_given?
+    def initialize(params = {})
+      super(params)
     end
 
     def login
@@ -28,13 +30,7 @@ module AlsoEnergy
       message = { 'als:sessionID' => session_id }
       response = find_in_hash(:items, (connection.call(:get_site_list, message: message).body))
       fail QueryError, "Query Failed!" if response == nil
-      response.each do |site|
-        @new_site = AlsoEnergy::Site.new do |c|
-          c.attrs.each{|attr| c.instance_variable_set("@#{attr}".to_sym, find_in_hash(attr.to_sym, site)) }
-        end
-        site_objects.push(@new_site)
-      end
-      return site_objects
+      response.map { |site| AlsoEnergy::Site.new(site[1]) }
     end
 
     def connection
