@@ -7,28 +7,30 @@ describe AlsoEnergy::Client do
 
   describe "initialization" do
 
-    before do
-      @client = AlsoEnergy::Client.new
-    end
-
     describe "#username" do
       it "accepts a client username" do
-        @client.username = "SpaceDoge"
-        assert_equal "SpaceDoge", @client.username
+        @client = AlsoEnergy::Client.new do |c|
+          c.username = "thedoge"
+        end
+        assert_equal "thedoge", @client.username
       end
     end
 
     describe "#password" do
       it "accepts a client password" do
-        @client.password = "12345"
+        @client = AlsoEnergy::Client.new do |c|
+          c.password = "12345"
+        end
         assert_equal "12345", @client.password
       end
     end
 
     describe "#session_id" do
       it "accepts an auth session id" do
-        @client.session_id = "SESSION_ID"
-        assert_equal "SESSION_ID", @client.session_id
+        @client = AlsoEnergy::Client.new do |c|
+          c.session_id = "totallynotnil"
+        end
+        assert_equal "totallynotnil", @client.session_id
       end
     end
 
@@ -36,13 +38,17 @@ describe AlsoEnergy::Client do
 
   describe "the authentication process" do
 
-    before do
-      wsdl_query_fixture = YAML.load_file("test/fixtures/also_energy_wsdl_query.yml")
-      stub_request(:get, wsdl_url).to_return(:body => wsdl_query_fixture["body"]["string"])
-      @client = AlsoEnergy::Client.new(:username => "SpaceDoge", :password => "12345")
-    end
-
     describe "#login" do
+
+      before do
+        wsdl_query_fixture = YAML.load_file("test/fixtures/also_energy_wsdl_query.yml")
+        stub_request(:get, wsdl_url).to_return(:body => wsdl_query_fixture["body"]["string"])
+        @client = AlsoEnergy::Client.new do |c|
+          c.username = "SpaceDoge"
+          c.password = "12345"
+          c.session_id = nil
+        end
+      end
 
       it "raises an exception for login failure" do
 
@@ -56,14 +62,14 @@ describe AlsoEnergy::Client do
 
       end
 
-      it "returns and assigns a session_id after successful authentication" do
+      it "assigns a session_id after successful authentication" do
 
         fixture = YAML.load_file("test/fixtures/also_energy_successful_login.yml")
         stub_request(:post, soap_url).with(:body => fixture["request"]["body"]["string"]
           ).to_return(:body => fixture["response"]["body"]["string"])
 
-        @client.login.wont_be_nil
-        @client.login.must_equal "SESSION_ID"
+        @client.login
+        @client.session_id.must_equal "SESSION_ID"
 
       end
 
@@ -76,7 +82,11 @@ describe AlsoEnergy::Client do
     before do
       wsdl_query_fixture = YAML.load_file("test/fixtures/also_energy_wsdl_query.yml")
       stub_request(:get, wsdl_url).to_return(:body => wsdl_query_fixture["body"]["string"])
-      @client = AlsoEnergy::Client.new(:session_id => "SESSION_ID")
+      @client = AlsoEnergy::Client.new do |c|
+        c.username = "SpaceDoge"
+        c.password = "12345"
+        c.session_id = "SESSION_ID"
+      end
     end
 
     describe "#get_sites" do

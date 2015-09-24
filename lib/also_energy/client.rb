@@ -9,15 +9,12 @@ module AlsoEnergy
   class QueryError < StandardError; end;
 
   class Client
-    include Virtus.model
     include HashWrangler
 
-    attribute :username, String
-    attribute :password, String
-    attribute :session_id, String
+    attr_accessor :username, :password, :session_id
 
-    def initialize(params = {})
-      super(params)
+    def initialize()
+      yield(self) if block_given?
     end
 
     def login
@@ -44,5 +41,7 @@ module AlsoEnergy
       end
     end
   end
+
+  binding.pry
 
 end
