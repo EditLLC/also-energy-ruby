@@ -1,0 +1,49 @@
+# ---
+# http_interactions:
+  request:
+    method: post
+    uri: https://www.alsoenergy.com/WebAPI/WebAPI.svc
+    body:
+      encoding: UTF-8
+      string: <?xml version="1.0" encoding="UTF-8"?><soapenv:Envelope xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:als="alsoenergy_ns"
+        xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"><soapenv:Body><als:GetSiteHardwareList><als:sessionID>SESSION_ID</als:sessionID><als:siteID>SITE_ID</als:siteID></als:GetSiteHardwareList></soapenv:Body></soapenv:Envelope>
+    headers:
+      Soapaction:
+      - '"alsoenergy_ns/WebAPI/GetSiteHardwareList"'
+      Content-Type:
+      - text/xml;charset=UTF-8
+      Content-Length:
+      - '435'
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - text/xml; charset=utf-8
+      Vary:
+      - Accept-Encoding
+      Server:
+      - Microsoft-IIS/7.5
+      X-Powered-By:
+      - ASP.NET
+      Date:
+      - Thu, 24 Sep 2015 23:46:13 GMT
+      Content-Length:
+      - '658'
+    body:
+      encoding: ASCII-8BIT
+      string: <s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/"><s:Body><GetSiteHardwareListResponse
+        xmlns="alsoenergy_ns"><GetSiteHardwareListResult xmlns:a="http://schemas.datacontract.org/2004/07/AlsoEnergyAPI.Data"
+        xmlns:i="http://www.w3.org/2001/XMLSchema-instance"><a:Code>200</a:Code><a:Description
+        i:nil="true"/><a:StringCode>OK</a:StringCode><a:HardwareList><a:HardwareComplete><a:DeviceCode>DEVICE_CODE</a:DeviceCode><a:DeviceID>DEVICE_ID</a:DeviceID><a:DeviceNum>DEVICE_NUM</a:DeviceNum><a:Flags>DEVICE_FLAGS</a:Flags><a:GatewayID>DEVICE_GATEWAY</a:GatewayID><a:HardwareID>HARDWARE_ID</a:HardwareID><a:Name>DEVICE_NAME</a:Name><a:SiteID>SITE_ID</a:SiteID><a:FieldList/></a:HardwareComplete><a:HardwareComplete><a:DeviceCode>DEVICE_CODE</a:DeviceCode><a:DeviceID>DEVICE_ID</a:DeviceID><a:DeviceNum>DEVICE_NUM</a:DeviceNum><a:Flags>DEVICE_FLAGS</a:Flags><a:GatewayID>DEVICE_GATEWAY</a:GatewayID><a:HardwareID>HARDWARE_ID</a:HardwareID><a:Name>DEVICE_NAME</a:Name><a:SiteID>SITE_ID</a:SiteID><a:FieldList><a:FieldInfo><a:Name>FIELD_NAME</a:Name><a:Units>FIELD_UNITS</a:Units></a:FieldInfo><a:FieldInfo><a:Name>FIELD_NAME</a:Name><a:Units>FIELD_UNITS</a:Units></a:FieldInfo><a:FieldInfo><a:Name>FIELD_NAME</a:Name><a:Units>FIELD_UNITS</a:Units></a:FieldInfo><a:FieldInfo><a:Name>FIELD_NAME</a:Name><a:Units>FIELD_UNITS</a:Units></a:FieldInfo><a:FieldInfo><a:Name>FIELD_NAME</a:Name><a:Units>FIELD_UNITS</a:Units></a:FieldInfo></a:FieldList></a:HardwareComplete></a:HardwareList></GetSiteHardwareListResult></GetSiteHardwareListResponse></s:Body></s:Envelope>
+#     http_version:
+#   recorded_at: Thu, 24 Sep 2015 23:46:14 GMT
+# recorded_with: VCR 2.9.3

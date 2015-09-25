@@ -83,13 +83,12 @@ describe AlsoEnergy::Client do
       wsdl_query_fixture = YAML.load_file("test/fixtures/also_energy_wsdl_query.yml")
       stub_request(:get, wsdl_url).to_return(:body => wsdl_query_fixture["body"]["string"])
       @client = AlsoEnergy::Client.new do |c|
-        c.username = "SpaceDoge"
-        c.password = "12345"
         c.session_id = "SESSION_ID"
       end
     end
 
     describe "#get_sites" do
+
       it "successfully returns an array of AlsoEnergy::Site objects from the API" do
 
         fixture = YAML.load_file("test/fixtures/also_energy_get_sites_query_success.yml")
@@ -108,6 +107,32 @@ describe AlsoEnergy::Client do
 
         assert_raises(AlsoEnergy::QueryError) do
           @client.get_sites
+        end
+
+      end
+
+    end
+
+    describe "#get_site_hardware" do
+
+      it "successfully returns an array of AlsoEnergy::HardWare objects from the API" do
+
+        fixture = YAML.load_file("test/fixtures/also_energy_get_site_hardware_success.yml")
+        stub_request(:post, soap_url).with(:body => fixture["request"]["body"]["string"]
+          ).to_return(:body => fixture["response"]["body"]["string"])
+
+        @client.get_site_hardware("SITE_ID").wont_be_nil
+
+      end
+
+      it "raises an AlsoEnergy::QueryError if get_site_hardware is not successful" do
+
+        fixture = YAML.load_file("test/fixtures/also_energy_get_site_hardware_failure.yml")
+        stub_request(:post, soap_url).with(:body => fixture["request"]["body"]["string"]
+          ).to_return(:body => fixture["response"]["body"]["string"])
+
+        assert_raises(AlsoEnergy::QueryError) do
+          @client.get_site_hardware("SITE_ID")
         end
 
       end
