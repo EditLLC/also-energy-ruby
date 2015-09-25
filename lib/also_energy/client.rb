@@ -3,6 +3,7 @@ require 'pry'
 require 'virtus'
 require './lib/also_energy/hash_wrangler'
 require './lib/also_energy/site'
+require './lib/also_energy/hardware'
 
 module AlsoEnergy
   class AuthError < StandardError; end;
@@ -26,8 +27,13 @@ module AlsoEnergy
     def get_sites
       message = { 'als:sessionID' => session_id }
       response = find_in_hash(:items, (connection.call(:get_site_list, message: message).body))
-      fail QueryError, "Query Failed!" if response == nil
-      response.map { |site| AlsoEnergy::Site.new(site[1]) }
+      response == nil ? (fail QueryError, "Query Failed!") : (response.map{|site| AlsoEnergy::Site.new(site[1])})
+    end
+
+    def get_site_hardware(site_id)
+      message = { 'als:sessionID' => session_id, 'als:siteID' => site_id }
+      response = find_in_hash(:hardware_complete, (connection.call(:get_site_hardware_list, message: message).body))
+      response == nil ? (fail QueryError, "Query Failed!") : (response.map{|hw| AlsoEnergy::HardWare.new(hw)})
     end
 
     def connection
@@ -41,7 +47,5 @@ module AlsoEnergy
       end
     end
   end
-
-  binding.pry
 
 end
