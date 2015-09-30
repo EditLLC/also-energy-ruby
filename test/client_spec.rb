@@ -41,7 +41,7 @@ describe AlsoEnergy::Client do
     describe "#login" do
 
       before do
-        wsdl_query_fixture = YAML.load_file("test/fixtures/also_energy_wsdl_query.yml")
+        wsdl_query_fixture = YAML.load_file("test/fixtures/updated_wsdl.yml")
         stub_request(:get, wsdl_url).to_return(:body => wsdl_query_fixture["body"]["string"])
         @client = AlsoEnergy::Client.new do |c|
           c.username = "SpaceDoge"
@@ -80,7 +80,7 @@ describe AlsoEnergy::Client do
   describe "the client data query process" do
 
     before do
-      wsdl_query_fixture = YAML.load_file("test/fixtures/also_energy_wsdl_query.yml")
+      wsdl_query_fixture = YAML.load_file("test/fixtures/updated_wsdl.yml")
       stub_request(:get, wsdl_url).to_return(:body => wsdl_query_fixture["body"]["string"])
       @client = AlsoEnergy::Client.new do |c|
         c.session_id = "SESSION_ID"
