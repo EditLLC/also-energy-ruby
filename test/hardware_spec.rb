@@ -13,8 +13,10 @@ describe AlsoEnergy::HardWare do
       before do
         wsdl_query_fixture = YAML.load_file("test/fixtures/updated_wsdl.yml")
         stub_request(:get, wsdl_url).to_return(:body => wsdl_query_fixture["body"]["string"])
-        AlsoEnergy.session_id = "SESSION_ID"
-        @hw = AlsoEnergy::HardWare.new
+        @client = AlsoEnergy::Client.new do |c|
+          c.session_id = 'SESSION_ID'
+        end
+        @hw = AlsoEnergy::HardWare.new(session_id: @client.session_id)
       end
 
       it "successfully returns hardware bin data from the API" do

@@ -17,7 +17,6 @@ module AlsoEnergy
 
     def initialize(params = {})
       super(params)
-      @session_id = AlsoEnergy.session_id
     end
 
     def get_bin_data(period_start, period_end, bin_size, query_blob)
@@ -29,8 +28,7 @@ module AlsoEnergy
                   'als:Fields' => query_blob
                 }
       response = find_in_hash(:data_set, (connection.call(:get_bin_data, message: message).body))
-      response == nil ? (fail QueryError, "Query Failed!") : response
+      response.nil? ? (fail QueryError, 'Query Failed!') : response
     end
-
   end
 end
