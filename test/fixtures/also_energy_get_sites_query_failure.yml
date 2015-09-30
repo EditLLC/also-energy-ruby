@@ -270,7 +270,8 @@
       encoding: UTF-8
       string: <?xml version="1.0" encoding="UTF-8"?><soapenv:Envelope xmlns:xsd="http://www.w3.org/2001/XMLSchema"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:als="alsoenergy_ns"
-        xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"><soapenv:Body><als:GetSiteList><als:sessionID>SESSION_ID</als:sessionID></als:GetSiteList></soapenv:Body></soapenv:Envelope>
+        xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
+        xmlns:als1="http://schemas.datacontract.org/2004/07/AlsoEnergyAPI.Data"><soapenv:Body><als:GetSiteList><als:sessionID>SESSION_ID</als:sessionID></als:GetSiteList></soapenv:Body></soapenv:Envelope>
     headers:
       Soapaction:
       - '"alsoenergy_ns/WebAPI/GetSiteList"'
