@@ -1,10 +1,7 @@
-require 'savon'
-require 'pry'
-require 'virtus'
-require './lib/also_energy/hash_wrangler'
-require './lib/also_energy/connection'
-require './lib/also_energy/site'
-require './lib/also_energy/hardware'
+require 'also_energy/hash_wrangler'
+require 'also_energy/connection'
+require 'also_energy/site'
+require 'also_energy/hardware'
 
 module AlsoEnergy
   class AuthError < StandardError; end
