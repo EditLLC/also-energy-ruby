@@ -43,7 +43,7 @@ module AlsoEnergy
       if response.nil?
         fail QueryError, 'Query Failed!'
       else
-        response.map { |hw| AlsoEnergy::HardWare.new(hw) }
+        response.each { |hw| hw[:session_id] = session_id }.map { |hw| AlsoEnergy::HardWare.new(hw) }
       end
     end
   end
